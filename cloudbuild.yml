@@ -1,40 +1,29 @@
-name: Deploy to Cloud Run
+steps:
 
-env:
-  SERVICE_NAME: qms-web
+# Prints the name of the committed branch
+- id: 'branch name'
+  name: 'alpine'
+  entrypoint: 'sh'  
+  args: 
+  - '-c'
+  - | 
+      echo "***********************"
+      echo "The Commit was made in the branch: "
+      echo "$BRANCH_NAME"
+      echo "***********************"
 
-on:
-  push:
-    branches:
-      - main
+# Pulls the GCP SDK builder image to run the gcloud commands
+# Builds the image and pushes to the GCR
+#
+- id: 'Build an Image'
+  name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'gcloud'
+  args: ['builds', 'submit', '--tag', 'gcr.io/${_PROJECT_ID}/${_SERVICE_NAME}:latest', '.', '--region', '${_BUILD_REGION}']
 
-jobs:
-  dockerize-and-deploy:
-    runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.2.0
-        with:
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-
-      - name: Configure Docker
-        run: |
-          gcloud auth configure-docker
-
-      - name: Build and Push Docker Image
-        run: |
-          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest .
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
-
-      - name: Deploy to Cloud Run
-        run: |
-          gcloud run deploy $SERVICE_NAME \
-            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest \
-            --platform managed \
-            --region us-central1 \
-            --allow-unauthenticated
+# Deploys the image in region given in trigger
+# Pulls the image from dockerhub
+- id: 'Deploy the Image'
+  name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'gcloud'
+  args: ['run', 'deploy', '${_SERVICE_NAME}', '--image', 'gcr.io/${_PROJECT_ID}/${_SERVICE_NAME}:latest', '--region', '${_DEPLOY_REGION}']

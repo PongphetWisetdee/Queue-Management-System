@@ -1,5 +1,5 @@
 # Use proper node version
-FROM node:20.11.1
+FROM node:20.11.1 as build
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ COPY package.json package.json
 COPY package-lock.json package-lock.json
 
 # Install npm packages, copy rest of the repo and run build command
-RUN npm install --production --force
+RUN npm install --force --production
 COPY . .
 RUN npm run build
 
