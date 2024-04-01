@@ -136,10 +136,10 @@ export default function BasicTable() {
           ) : (isDayOff === 'Wednesday' ? (
             <TableBody>
               <Box m={2} pl={10}>
-                <Typography display="inline" variant="h6" gutterBottom>
+                <Typography variant="h6" gutterBottom>
                   Closed Every Wednesday
                 </Typography>
-                <Typography display="inline" variant="h6" gutterBottom>
+                <Typography variant="h6" gutterBottom>
                   (ร้านปิดทุกวันพุธ)
                 </Typography>
               </Box>
