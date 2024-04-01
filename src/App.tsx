@@ -1,15 +1,22 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import BasicTable from './components/Table';
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+import QueuePage from './pages/QueuePage';
+import QueueAdminPage from './pages/QueueAdminPage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <BasicTable/>
-      </header>
-    </div>
+    <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<QueuePage />} />
+      <Route path="/admin/edit/unm" element={<QueueAdminPage />} />
+    </Routes>
+  </BrowserRouter>
   );
 }
 
