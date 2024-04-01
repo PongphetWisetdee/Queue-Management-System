@@ -192,8 +192,11 @@ export default function TableAdmin() {
             ) : (isDayOff === 'Wednesday' ? (
               <TableBody>
                 <Box m={2} pl={13}>
-                  <Typography variant="h5" gutterBottom>
-                    ไม่มีคิว
+                  <Typography variant="h6" gutterBottom>
+                    Closed Every Wednesday
+                  </Typography>
+                  <Typography variant="h6" gutterBottom>
+                    (ร้านปิดทุกวันพุธ)
                   </Typography>
                 </Box>
               </TableBody>
