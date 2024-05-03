@@ -83,6 +83,11 @@ export default function TableAdmin() {
 
   async function fetchQueue(): Promise<QueueResponse[]> {
     setIsLoading(true);
+
+    let finalDate = new Date(date.getTime() + 86400000);
+
+    console.log(finalDate.toISOString().slice(0, 10))
+
     const response = await fetch('https://qms-api-77ejhpt2zq-as.a.run.app/qms/api/queue/queueListForWeb', {
       method: 'POST',
       headers: {
@@ -93,7 +98,7 @@ export default function TableAdmin() {
       },
       body: JSON.stringify({
         shopId: 'S001',
-        queueDate: date.toISOString().slice(0, 10),
+        queueDate: finalDate,
       }),
     });
     const data = await response.json();

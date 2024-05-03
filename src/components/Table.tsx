@@ -48,6 +48,9 @@ export default function BasicTable() {
 
   async function fetchQueue(): Promise<QueueResponse[]> {
     setIsLoading(true);
+    let finalDate = new Date(date.getTime() + 86400000);
+
+    console.log(finalDate.toISOString().slice(0, 10))
     const response = await fetch(
       "https://qms-api-77ejhpt2zq-as.a.run.app/qms/api/queue/queueListForWeb",
       {
@@ -60,7 +63,7 @@ export default function BasicTable() {
         },
         body: JSON.stringify({
           shopId: "S001",
-          queueDate: date.toISOString().slice(0, 10),
+          queueDate: finalDate
         }),
       }
     );
