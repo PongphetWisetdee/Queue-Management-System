@@ -49,14 +49,14 @@ export default function BasicTable() {
   async function fetchQueue(): Promise<QueueResponse[]> {
     setIsLoading(true);
 
-    let day = date.getDate().toString();
+    let day = (date.getDate()).toString();
     let month = (date.getMonth() + 1).toString();
     let year = date.getFullYear();
 
-    if (day.length == 1) {
+    if (day.length === 1) {
       day = 0 + day;
     }
-    if (month.length == 1) {
+    if (month.length === 1) {
       month = 0 + month;
     }
 

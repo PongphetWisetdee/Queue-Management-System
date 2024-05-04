@@ -84,20 +84,21 @@ export default function TableAdmin() {
   async function fetchQueue(): Promise<QueueResponse[]> {
     setIsLoading(true);
 
-    let day = date.getDate().toString();
+    let day = (date.getDate()).toString();
     let month = (date.getMonth() + 1).toString();
     let year = date.getFullYear();
 
-    if (day.length == 1) {
+    if (day.length === 1) {
       day = 0 + day;
     }
-    if (month.length == 1) {
+    if (month.length === 1) {
       month = 0 + month;
     }
 
     let finalDate = year + '-' + month + '-' + day
 
     console.log(finalDate);
+    console.log('date admin');
 
     const response = await fetch('https://qms-api-77ejhpt2zq-as.a.run.app/qms/api/queue/queueListForWeb', {
       method: 'POST',
